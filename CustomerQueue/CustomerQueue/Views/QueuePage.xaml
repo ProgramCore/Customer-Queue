@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CustomerQueue.Views.QueuePage"
+             BackgroundColor="{DynamicResource BackgroundColor}"
+             x:Name="QueueCustomerPage"
+             xmlns:local="clr-namespace:CustomerQueue;assembly=CustomerQueue"
+             xmlns:conv="clr-namespace:CustomerQueue.Converters;assembly=CustomerQueue"
+             >
+    <ContentPage.Resources>
+        <conv:TimeUrgencyColorConverter x:Key="colorConverter" />
+        <conv:BoolNotConverter x:Key="boolnot"/>
+        <conv:AlertedBoolConverter x:Key="alertbool"/>
+        <conv:AlertedMinsConverter x:Key="alertedMins"/>
+        <conv:WaitMinsConverter x:Key="waitedMins"/>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Spacing="0">
+            <Grid BackgroundColor="{DynamicResource Gray}" Padding="10,5,3,5" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Text="WAIT " TextColor="{StaticResource BackgroundColor}" FontSize="16" Margin="0,0,0,0" HorizontalTextAlignment="Center" />
+                <Label Grid.Row="0" Grid.Column="1" Text=" PARTY" TextColor="{StaticResource BackgroundColor}" FontSize="16" Margin="0,0,0,0" />
+                <Label Grid.Row="0" Grid.Column="2" FontSize="12" TextColor="{StaticResource BackgroundColor}" Margin="10,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="users " FontFamily="FASolid" />
+                                <Span Text="{Binding Reservations.Count}" FontAttributes="Bold" />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="0" Grid.Column="3" FontSize="12" TextColor="{StaticResource BackgroundColor}" Margin="10,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="clock " FontFamily="FASolid" />
+                                <Span Text="{Binding NextEstTime}" FontAttributes="Bold" />
+                                <Span Text=" mins." FontSize="10" />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
+            <Grid HorizontalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <CollectionView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" ItemsSource="{Binding Reservations}" BackgroundColor="{DynamicResource BackgroundColor}" SelectionMode="Single" Margin="0" VerticalOptions="FillAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.LeftItems>
+                                    <SwipeItem Text="Alert" BackgroundColor="{DynamicResource Orange}" Command="{Binding BindingContext.AlertCommand, Source={x:Reference QueueCustomerPage}}" CommandParameter="{Binding .}" />
+                                    <SwipeItem Text="Prioritize" BackgroundColor="{DynamicResource LightGray}" Command="{Binding BindingContext.PrioritizeCommand, Source={x:Reference QueueCustomerPage}}" CommandParameter="{Binding .}" />
+                                </SwipeView.LeftItems>
+                                <SwipeView.RightItems>
+                                    <SwipeItem Text="Cancel" BackgroundColor="{DynamicResource LighterGray}" Command="{Binding BindingContext.CancelCustomerCommand, Source={x:Reference QueueCustomerPage}}" CommandParameter="{Binding .}"/>
+                                    <SwipeItem Text="Seat" BackgroundColor="{DynamicResource DarkBlue}" Command="{Binding BindingContext.SeatCustomerCommand, Source={x:Reference QueueCustomerPage}}" CommandParameter="{Binding .}" />
+                                </SwipeView.RightItems>
+                                <Grid BackgroundColor="{DynamicResource BackgroundColor}" RowSpacing="0" Padding="10,5,10,5" Margin="0,0,0,1" VerticalOptions="CenterAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Row="0" Grid.Column="0" TextColor="{Binding QueuedIn, Converter={StaticResource colorConverter}}" IsVisible="{Binding IsVisible, Source={x:Reference alertedLbl}, Converter={StaticResource boolnot}}" FontSize="40" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <FormattedString.Spans>
+                                                    <Span Text="{Binding QueuedIn, Converter={StaticResource waitedMins}, Mode=TwoWay}" FontAttributes="Bold"/>
+                                                    <Span Text=" min." FontSize="11"/>
+                                                </FormattedString.Spans>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label Grid.Row="0" Grid.Column="0" x:Name="alertedLbl" TextColor="{DynamicResource Orange}" IsVisible="{Binding AlertedTime, Converter={StaticResource alertbool}}" FontSize="40" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <FormattedString.Spans>
+                                                    <Span Text="bullhorn&#x0a;" FontFamily="FASolid" FontSize="15" FontAttributes="Bold"/>
+                                                    <Span Text="{Binding AlertedTime, Converter={StaticResource alertedMins}, Mode=TwoWay}" FontAttributes="Bold"/>
+                                                    <Span Text=" min." FontSize="11"/>
+                                                </FormattedString.Spans>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+
+                                    <Label Grid.Row="0" Grid.Column="2" Margin="0,0,0,0" TextColor="{StaticResource TextColor}" FontSize="12">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <FormattedString.Spans>
+                                                    <Span Text="{Binding Customer.Name}" FontAttributes="Bold"/>
+                                                    <Span Text="{Binding PartySize, StringFormat='&#x0a;Party of {0}'}" FontSize="14" />
+                                                    <Span Text="{Binding QueuedIn, StringFormat=' · Checked in at {0:hh:mm tt}'}" FontSize="14" />
+                                                </FormattedString.Spans>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label Grid.Row="0" Grid.Column="1" Text="star" FontFamily="FASolid" FontSize="25" Margin="5,0" TextColor="{StaticResource LightGray}" IsVisible="{Binding Prioritize}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                                    <Label Grid.Row="0" Grid.Column="3" Text="est Time" FontSize="11" TextColor="{StaticResource Gray}" HorizontalTextAlignment="End" VerticalTextAlignment="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <FormattedString.Spans>
+                                                    <Span Text="est. wait&#x0a;"/>
+                                                    <Span Text="{Binding EstimatedWaitTime}" />
+                                                    <Span Text=" min."/>
+                                                </FormattedString.Spans>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Frame Grid.Row="1" Grid.Column="1" Padding="0" Margin="20" HasShadow="True" CornerRadius="30" WidthRequest="60" HeightRequest="60" >
+                    <Button Text="+" Command="{Binding AddCustomerCommand}" Padding="0,-5,0,0" BackgroundColor="{DynamicResource Orange}" TextColor="White" FontAttributes="Bold" FontSize="40" CornerRadius="30" WidthRequest="60" HeightRequest="60" VerticalOptions="Center" HorizontalOptions="End"/>
+                </Frame>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

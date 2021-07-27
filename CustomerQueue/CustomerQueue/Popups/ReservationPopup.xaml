@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="CustomerQueue.ReservationPopup">
+    <pages:PopupPage.Resources>
+        <ControlTemplate x:Key="RadBtnControlTemplate">
+            <Frame CornerRadius="7" Padding="20,3" HasShadow="false" >
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CheckedStates">
+                            <VisualState x:Name="Checked">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor"
+                                            Value="#ec823a" />
+                                    <Setter Property="BackgroundColor"
+                                            Value="#33ec823a" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Unchecked">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor"
+                                            Value="{StaticResource Gray}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <ContentPresenter/>
+            </Frame>
+        </ControlTemplate>
+    </pages:PopupPage.Resources>
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </pages:PopupPage.Animation>
+    <StackLayout Spacing="0" BackgroundColor="{DynamicResource Gray}" WidthRequest="300" VerticalOptions="Center" HorizontalOptions="Center">
+        <StackLayout Padding="10" Spacing="20" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="FillAndExpand" >
+            <Label Text="&#xf234;" FontFamily="FASolid" FontSize="30" TextColor="{StaticResource BackgroundColor}" Margin="0" VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" />
+            <Label Text="New Reservation" TextColor="{StaticResource BackgroundColor}" FontSize="Medium" Margin="0" VerticalTextAlignment="Center" FontAttributes="Bold" HorizontalOptions="StartAndExpand"/>
+        </StackLayout>
+        <Grid RowDefinitions="auto, *, auto, auto, auto" ColumnDefinitions="40,*" Padding="10" RowSpacing="6" BackgroundColor="{DynamicResource BackgroundColor}">
+            <Label Grid.Row="0" Grid.Column="0" Text="id-card" FontFamily="FASolid" FontSize="20" TextColor="{StaticResource Gray}" Margin="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" WidthRequest="40" />
+            <Entry Grid.Row="0" Grid.Column="1" x:Name="NameEntry" Placeholder="Name" TextColor="{StaticResource Gray}" PlaceholderColor="{StaticResource LighterGray}" HorizontalOptions="FillAndExpand"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Text="user-friends" FontFamily="FASolid" FontSize="20" TextColor="{StaticResource Gray}" Margin="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" WidthRequest="40" HorizontalOptions="Center" />
+
+            <ScrollView Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" >
+                <StackLayout Grid.Row="1" Grid.Column="1" RadioButtonGroup.GroupName="size" Orientation="Horizontal" Spacing="7" Padding="0,0,0,3">
+                    <RadioButton Value="1" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" >
+                        <RadioButton.Content>
+                            <Label Text="1" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Value="2" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" IsChecked="True" >
+                        <RadioButton.Content>
+                            <Label Text="2" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Value="3" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" >
+                        <RadioButton.Content>
+                            <Label Text="3" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Value="4" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" >
+                        <RadioButton.Content>
+                            <Label Text="4" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Value="5" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" >
+                        <RadioButton.Content>
+                            <Label Text="5" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Value="6" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" >
+                        <RadioButton.Content>
+                            <Label Text="6" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Value="7" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" >
+                        <RadioButton.Content>
+                            <Label Text="7" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Value="8" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" >
+                        <RadioButton.Content>
+                            <Label Text="8" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Value="+" GroupName="size" CheckedChanged="RadioButton_CheckedChanged" ControlTemplate="{StaticResource RadBtnControlTemplate}" >
+                        <RadioButton.Content>
+                            <Label Text="+" TextColor="{StaticResource Gray}" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                </StackLayout>
+            </ScrollView>
+
+            <Label Grid.Row="2" Grid.Column="0" Text="&#xf3cd;" FontFamily="FASolid" FontSize="20" TextColor="{StaticResource Gray}" Margin="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" WidthRequest="40" HorizontalOptions="Center" />
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="EmailEntry" Placeholder="Email" TextColor="{StaticResource Gray}" PlaceholderColor="{StaticResource LighterGray}" Keyboard="Email" HorizontalOptions="FillAndExpand"/>
+
+            <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="6" HorizontalOptions="EndAndExpand">
+                <Label Text="Prioritize" TextColor="{StaticResource Gray}" VerticalTextAlignment="Center"/>
+                <Switch x:Name="prioritySwitch" />
+            </StackLayout>
+
+            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="AddReservationBtn" Text="Add Reservation" BackgroundColor="{StaticResource Orange}" Margin="10,20,10,0" TextColor="White"/>
+
+        </Grid>
+    </StackLayout>
+</pages:PopupPage>
